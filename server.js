@@ -2,31 +2,21 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const { promisify } = require('util')
 const { auth, strategies, requiredScopes } = require('express-oauth2-bearer');
-const jwt = require('express-jwt');
-const jwksRsa = require('jwks-rsa');
+const authCheck = require('./auth.middleware');
 
 const app = express()
 app.use(bodyParser.json())
 
-const checkJwt = jwt({
-    secret: jwksRsa.expressJwtSecret({
-        cache: false,
-        rateLimit: true,
-        jwksRequestsPerMinute: 5,
-        jwksUri: `http://localhost:5000/jwks`,
-    }),
-    audience: 'foo',
-    issuer: 'http://localhost:5000',
-    algorithms: ['RS256'],
-});
-
-app.get('/test', (req, res) => {
-    console.log("REACHED TEST")
+// This is an example of an unprotected route
+app.get('/unprotected', (req, res) => {
+    console.log("REACHED UNPROTECTED ENDPOINT, NO AUTH REQUIRED")
     return res.status(200).send("done")
 })
 
-app.get('/auth', checkJwt, (req, res) => {
-    console.log("REACHED AUTH: ", req.user)
+// This is another example of a protected route
+// NOTE: Middleware also adds the user properties in the request.
+app.get('/protected', authCheck, (req, res) => {
+    console.log("AUTHENTICATED ROUTE REACHED. USER DETAILS RETRIEVED: ", req.user)
     return res.status(200).send("done")
 })
 
