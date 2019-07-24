@@ -16,8 +16,7 @@ const checkJwt = jwt({
 });
 
 
-const sampleMiddleware = (req, res, next) => {
-    // Get user
+const readProducts = (req, res, next) => {
     const user = req.user;
     if(user['read:products'] === 'true') {
         return next()
@@ -26,4 +25,4 @@ const sampleMiddleware = (req, res, next) => {
     }
 }
 
-module.exports = { checkJwt, sampleMiddleware };
+module.exports = { checkJwt, readProducts };

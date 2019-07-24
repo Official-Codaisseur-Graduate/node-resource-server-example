@@ -1,7 +1,7 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const { promisify } = require('util')
-const { checkJwt, sampleMiddleware } = require('./auth.middleware');
+const { checkJwt, readProducts } = require('./auth.middleware');
 
 const app = express()
 app.use(bodyParser.json())
@@ -28,7 +28,7 @@ app.use(function (err, req, res, next) {
     }
 });
 
-app.get('/sample', checkJwt, sampleMiddleware, (req, res) => {
+app.get('/sample', checkJwt, readProducts, (req, res) => {
     console.log('SAMPLE END POINT')
     // console.log
     return res.status(200).send('sample')
