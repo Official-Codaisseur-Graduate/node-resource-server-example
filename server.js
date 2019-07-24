@@ -2,6 +2,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const { promisify } = require('util')
 const { checkJwt, readProducts } = require('./auth.middleware');
+const { sampleProducts } = require('./sampleDate')
 
 const app = express()
 app.use(bodyParser.json())
@@ -31,8 +32,10 @@ app.use(function (err, req, res, next) {
 app.get('/sample', checkJwt, readProducts, (req, res) => {
     console.log('SAMPLE END POINT')
     // console.log
-    return res.status(200).send('sample')
+    return res.status(200).send(sampleProducts)
 })
+
+// app.post('/sample', checkJwt,)
 
 const startServer = async () => {
     const port = process.env.SERVER_PORT || 3000
