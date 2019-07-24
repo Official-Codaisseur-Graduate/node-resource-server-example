@@ -1,7 +1,7 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const { promisify } = require('util')
-const authCheck = require('./auth.middleware');
+const { checkJwt, sampleMiddleware } = require('./auth.middleware');
 
 const app = express()
 app.use(bodyParser.json())
@@ -14,7 +14,7 @@ app.get('/unprotected', (req, res) => {
 
 // This is another example of a protected route
 // NOTE: Middleware also adds the user properties in the request.
-app.get('/protected', authCheck, (req, res) => {
+app.get('/protected', checkJwt, (req, res) => {
     console.log("AUTHENTICATED ROUTE REACHED. USER DETAILS RETRIEVED: ", req.user)
     return res.status(200).send("done")
 })
@@ -28,10 +28,10 @@ app.use(function (err, req, res, next) {
     }
 });
 
-app.get('/test', (req, res) => {
-    console.log('TEST END POINT')
+app.get('/sample', checkJwt, sampleMiddleware, (req, res) => {
+    console.log('SAMPLE END POINT')
     // console.log
-    return res.status(200).send("test")
+    return res.status(200).send('sample')
 })
 
 const startServer = async () => {
