@@ -28,6 +28,12 @@ app.use(function (err, req, res, next) {
     }
 });
 
+app.get('/test', (req, res) => {
+    console.log('TEST END POINT')
+    // console.log
+    return res.status(200).send("test")
+})
+
 const startServer = async () => {
     const port = process.env.SERVER_PORT || 3000
     await promisify(app.listen).bind(app)(port)
