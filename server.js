@@ -1,7 +1,7 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const { promisify } = require('util')
-const { checkJwt, readProducts } = require('./auth.middleware');
+const { checkJwt, readProducts, editProducts } = require('./auth.middleware');
 const { sampleProducts } = require('./sampleDate')
 
 const app = express()
@@ -30,12 +30,20 @@ app.use(function (err, req, res, next) {
 });
 
 app.get('/sample', checkJwt, readProducts, (req, res) => {
-    console.log('SAMPLE END POINT')
-    // console.log
+    console.log('READ SAMPLE END POINT')
     return res.status(200).send(sampleProducts)
 })
 
-// app.post('/sample', checkJwt,)
+app.post('/sample', checkJwt, editProducts, (req, res) => {
+    console.log('EDIT SAMPLE END POINT')
+    newProduct = req.body.product
+    if (newProduct) {
+        sampleProducts.push(newProduct)
+        return res.status(200).send(sampleProducts)
+    } else {
+        return res.status(400).send('cant read product')
+    }
+})
 
 const startServer = async () => {
     const port = process.env.SERVER_PORT || 3000
