@@ -25,4 +25,13 @@ const readProducts = (req, res, next) => {
     }
 }
 
-module.exports = { checkJwt, readProducts };
+const editProducts = (req, res, next) => {
+    const user = req.user;
+    if(user['edit:products'] === 'true') {
+        return next()
+    } else{
+        return res.status(403).send('u dont have edit access')
+    }
+}
+
+module.exports = { checkJwt, readProducts, editProducts };
