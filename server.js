@@ -30,8 +30,13 @@ app.use(function (err, req, res, next) {
 });
 
 app.get('/sample', checkJwt, readProducts, (req, res) => {
-    console.log('READ SAMPLE END POINT')
-    return res.status(200).send(sampleProducts)
+    console.log('READ SAMPLE END POINT', req.query)
+    const limit = Number(req.query.limit) || 5
+    const offset = Number(req.query.offset) || 0
+
+    const data = sampleProducts.slice(offset, offset+limit)
+
+    return res.status(200).send(data)
 })
 
 app.post('/sample', checkJwt, editProducts, (req, res) => {
