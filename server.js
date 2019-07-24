@@ -17,7 +17,7 @@ app.get('/unprotected', (req, res) => {
 // NOTE: Middleware also adds the user properties in the request.
 app.get('/protected', checkJwt, (req, res) => {
     console.log("AUTHENTICATED ROUTE REACHED. USER DETAILS RETRIEVED: ", req.user)
-    return res.status(200).send("done")
+    return res.status(200).send(req.user)
 })
 
 // The default behavior is to throw an error when the token is invalid, 
