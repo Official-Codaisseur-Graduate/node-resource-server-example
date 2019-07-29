@@ -3,6 +3,7 @@ const bodyParser = require('body-parser')
 const { promisify } = require('util')
 const { checkJwt, readProducts, editProducts } = require('./auth.middleware')
 const { sampleProducts } = require('./sampleDate')
+const { port } = require('./config')
 
 const app = express()
 app.use(bodyParser.json())
@@ -51,7 +52,6 @@ app.post('/sample', checkJwt, editProducts, (req, res) => {
 })
 
 const startServer = async () => {
-    const port = process.env.SERVER_PORT || 3000
     await promisify(app.listen).bind(app)(port)
     console.log(`Listening on port ${port}`)
 }

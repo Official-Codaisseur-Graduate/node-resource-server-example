@@ -1,17 +1,16 @@
 const jwt = require('express-jwt')
 const jwksRsa = require('jwks-rsa')
-
-const authServerUrl = 'http://localhost:5000'
+const { authorityUrl } = require('./config')
 
 const checkJwt = jwt({
     secret: jwksRsa.expressJwtSecret({
         cache: false,
         rateLimit: true,
         jwksRequestsPerMinute: 5,
-        jwksUri: `http://172.16.31.64:5000/jwks`,
+        jwksUri: `${authorityUrl}/jwks`,
     }),
     audience: 'foo',
-    issuer: `${authServerUrl}`,
+    issuer: authorityUrl,
     algorithms: ['RS256'],
 });
 
