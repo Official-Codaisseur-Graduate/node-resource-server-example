@@ -1,7 +1,7 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const { promisify } = require('util')
-const { auth, strategies, requiredScopes } = require('express-oauth2-bearer');
+const { auth, strategies, requiredScopes } = require('express-oauth2-bearer')
 
 const app = express()
 app.use(bodyParser.json());

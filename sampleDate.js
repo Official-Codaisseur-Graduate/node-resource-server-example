@@ -27,4 +27,4 @@ const sampleProducts = [
   'Zulu',
 ]
 
-module.exports = {sampleProducts}
+module.exports = { sampleProducts }

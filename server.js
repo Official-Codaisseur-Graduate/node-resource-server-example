@@ -1,7 +1,7 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const { promisify } = require('util')
-const { checkJwt, readProducts, editProducts } = require('./auth.middleware');
+const { checkJwt, readProducts, editProducts } = require('./auth.middleware')
 const { sampleProducts } = require('./sampleDate')
 
 const app = express()
@@ -34,7 +34,7 @@ app.get('/sample', checkJwt, readProducts, (req, res) => {
     const limit = Number(req.query.limit) || 5
     const offset = Number(req.query.offset) || 0
 
-    const data = sampleProducts.slice(offset, offset+limit)
+    const data = sampleProducts.slice(offset, offset + limit)
 
     return res.status(200).send(data)
 })
