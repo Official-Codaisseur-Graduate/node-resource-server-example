@@ -51,10 +51,9 @@ app.post('/sample', checkJwt, editProducts, (req, res) => {
     }
 })
 
-const startServer = async (localPort) => {
-    const port = process.env.SERVER_PORT || localPort
+const startServer = async () => {
     await promisify(app.listen).bind(app)(port)
     console.log(`Listening on port ${port}`)
 }
 
-startServer(port)
+startServer()
