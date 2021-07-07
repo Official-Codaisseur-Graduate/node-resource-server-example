@@ -1,35 +1,34 @@
-const jwt = require('express-jwt');
-const jwksRsa = require('jwks-rsa');
-
-const authServerUrl = 'http://localhost:5000'
+const jwt = require('express-jwt')
+const jwksRsa = require('jwks-rsa')
+const { authorityUrl } = require('./config')
 
 const checkJwt = jwt({
     secret: jwksRsa.expressJwtSecret({
         cache: false,
         rateLimit: true,
         jwksRequestsPerMinute: 5,
-        jwksUri: `http://172.16.31.64:5000/jwks`,
+        jwksUri: `${authorityUrl}/jwks`,
     }),
     audience: 'foo',
-    issuer: `${authServerUrl}`,
+    issuer: authorityUrl,
     algorithms: ['RS256'],
 });
 
 
 const readProducts = (req, res, next) => {
     const user = req.user;
-    if(user['read:products'] === 'true') {
+    if (user['read:products'] === 'true') {
         return next()
-    } else{
+    } else {
         return res.status(403).send('u dont have read access')
     }
 }
 
 const editProducts = (req, res, next) => {
     const user = req.user;
-    if(user['edit:products'] === 'true') {
+    if (user['edit:products'] === 'true') {
         return next()
-    } else{
+    } else {
         return res.status(403).send('u dont have edit access')
     }
 }

@@ -1,8 +1,9 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const { promisify } = require('util')
-const { checkJwt, readProducts, editProducts } = require('./auth.middleware');
+const { checkJwt, readProducts, editProducts } = require('./auth.middleware')
 const { sampleProducts } = require('./sampleDate')
+const { port } = require('./config')
 
 const app = express()
 app.use(bodyParser.json())
@@ -34,7 +35,7 @@ app.get('/sample', checkJwt, readProducts, (req, res) => {
     const limit = Number(req.query.limit) || 5
     const offset = Number(req.query.offset) || 0
 
-    const data = sampleProducts.slice(offset, offset+limit)
+    const data = sampleProducts.slice(offset, offset + limit)
 
     return res.status(200).send(data)
 })
@@ -51,7 +52,6 @@ app.post('/sample', checkJwt, editProducts, (req, res) => {
 })
 
 const startServer = async () => {
-    const port = process.env.SERVER_PORT || 3000
     await promisify(app.listen).bind(app)(port)
     console.log(`Listening on port ${port}`)
 }
